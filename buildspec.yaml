@@ -5,14 +5,11 @@ env:
     AWS_ACCOUNT_ID: "764744153968"
     AWS_DEFAULT_REGION: "us-east-1"
     IMAGE_REPO_NAME: "test-coworking-analytics"
-    IMAGE_TAG: "latest"
+    IMAGE_TAG: "0.0.01"
 phases:
   pre_build:
     commands:
-      - echo "Logging into ECR..."
-      - echo "Region: $AWS_DEFAULT_REGION"
-      - echo "Account ID: $AWS_ACCOUNT_ID"
-      - echo "ECR URL: $AWS_ACCOUNT_ID.dkr.ecr.$AWS_DEFAULT_REGION.amazonaws.com"
+      - echo Logging into ECR...
       - aws ecr get-login-password --region $AWS_DEFAULT_REGION | docker login --username AWS --password-stdin $AWS_ACCOUNT_ID.dkr.ecr.$AWS_DEFAULT_REGION.amazonaws.com
   build:
     commands:
