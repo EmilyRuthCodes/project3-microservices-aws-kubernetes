@@ -2,9 +2,13 @@ version: 0.2
 
 phases:
   pre_build:
-    commands:
-      - echo Logging into ECR
-      - aws ecr get-login-password --region $AWS_DEFAULT_REGION | docker login --username AWS --password-stdin $AWS_ACCOUNT_ID.dkr.ecr.$AWS_DEFAULT_REGION.amazonaws.com
+  commands:
+    - echo Logging into ECR...
+    - echo "Region: $AWS_DEFAULT_REGION"
+    - echo "Account ID: $AWS_ACCOUNT_ID"
+    - echo "ECR URL: $AWS_ACCOUNT_ID.dkr.ecr.$AWS_DEFAULT_REGION.amazonaws.com"
+    - aws ecr get-login-password --region $AWS_DEFAULT_REGION | \
+      docker login --username AWS --password-stdin $AWS_ACCOUNT_ID.dkr.ecr.$AWS_DEFAULT_REGION.amazonaws.com
   build:
     commands:
       - echo Starting build at `date`
