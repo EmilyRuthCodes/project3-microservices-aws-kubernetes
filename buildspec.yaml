@@ -6,7 +6,6 @@ env:
     AWS_DEFAULT_REGION: "us-east-1"
     IMAGE_REPO_NAME: "test-coworking-analytics"
     IMAGE_TAG: "latest"
-
 phases:
   pre_build:
     commands:
@@ -15,14 +14,12 @@ phases:
       - echo "Account ID: $AWS_ACCOUNT_ID"
       - echo "ECR URL: $AWS_ACCOUNT_ID.dkr.ecr.$AWS_DEFAULT_REGION.amazonaws.com"
       - aws ecr get-login-password --region $AWS_DEFAULT_REGION | docker login --username AWS --password-stdin $AWS_ACCOUNT_ID.dkr.ecr.$AWS_DEFAULT_REGION.amazonaws.com
-
   build:
     commands:
       - echo "Starting build at $(date)"
       - echo "Building the Docker image..."
       - docker build -t $IMAGE_REPO_NAME:$IMAGE_TAG .
       - docker tag $IMAGE_REPO_NAME:$IMAGE_TAG $AWS_ACCOUNT_ID.dkr.ecr.$AWS_DEFAULT_REGION.amazonaws.com/$IMAGE_REPO_NAME:$IMAGE_TAG
-
   post_build:
     commands:
       - echo "Completed build at $(date)"
