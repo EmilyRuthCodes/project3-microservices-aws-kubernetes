@@ -8,17 +8,24 @@ env:
     CODEBUILD_BUILD_NUMBER: "latest"
     DB_USERNAME: "myuser"
     DB_PASSWORD: "mypassword"
+
 phases:
   pre_build:
     commands:
       - echo Logging into ECR...
       - aws ecr get-login-password --region $AWS_DEFAULT_REGION | docker login --username AWS --password-stdin $AWS_ACCOUNT_ID.dkr.ecr.$AWS_DEFAULT_REGION.amazonaws.com
+
   build:
     commands:
       - echo "Starting build at $(date)"
       - echo "Building the Docker image..."
-      - docker build -f Dockerfile -t $IMAGE_REPO_NAME:$CODEBUILD_BUILD_NUMBER ./analytics
-      - docker tag $IMAGE_REPO_NAME:$IMAGE_TAG $AWS_ACCOUNT_ID.dkr.ecr.$AWS_DEFAULT_REGION.amazonaws.com/$IMAGE_REPO_NAME:$CODEBUILD_BUILD_NUMBER
+      - docker build \
+          --build-arg DB_USERNAME=$DB_USERNAME \
+          --build-arg DB_PASSWORD=$DB_PASSWORD \
+          -f ./analytics/Dockerfile \
+          -t $IMAGE_REPO_NAME:$CODEBUILD_BUILD_NUMBER ./analytics
+      - docker tag $IMAGE_REPO_NAME:$CODEBUILD_BUILD_NUMBER $AWS_ACCOUNT_ID.dkr.ecr.$AWS_DEFAULT_REGION.amazonaws.com/$IMAGE_REPO_NAME:$CODEBUILD_BUILD_NUMBER
+
   post_build:
     commands:
       - echo "Completed build at $(date)"
