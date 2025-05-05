@@ -46,7 +46,7 @@ spec:
           timeoutSeconds: 5
         envFrom:
         - configMapRef:
-            name: configmap.yaml
+            name: analytics-config
         env:
         - name: DB_PASSWORD
           valueFrom:
