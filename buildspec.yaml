@@ -6,8 +6,7 @@ env:
     AWS_DEFAULT_REGION: "us-east-1"
     IMAGE_REPO_NAME: "test-coworking-analytics"
     CODEBUILD_BUILD_NUMBER: "latest"
-    DB_USERNAME: "myuser"
-    DB_PASSWORD: "mypassword"
+
 
 phases:
   pre_build:
