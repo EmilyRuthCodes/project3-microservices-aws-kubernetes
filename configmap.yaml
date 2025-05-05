@@ -3,6 +3,7 @@ kind: ConfigMap
 metadata:
   name: analytics-config
 data:
+  DB_NAME: 'mydatabase'
   DB_HOST: '10.100.37.48'
   DB_PORT: '5432'
   DB_USERNAME: 'myuser'
